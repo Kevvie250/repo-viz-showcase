@@ -574,7 +574,7 @@
   }
   
   /* Sidebar positioning below header */
-  [data-sidebar] {
+  [data-sidebar="sidebar"] {
     top: 192px !important;
     height: calc(100vh - 192px) !important;
   }
