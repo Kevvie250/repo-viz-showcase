@@ -46,18 +46,22 @@
     --gray-900: 222 84% 5%;
     
     /* Background System */
-    --bg-gradient: linear-gradient(135deg, hsl(197 100% 95%) 0%, hsl(185 84% 91%) 50%, hsl(186 100% 84%) 100%);
-    --card-bg: hsl(var(--white));
-    --card-gradient: linear-gradient(145deg, hsl(var(--white)) 0%, hsl(var(--gray-50)) 100%);
+    --bg-gradient: linear-gradient(135deg, hsl(210 40% 96%) 0%, hsl(214 32% 94%) 50%, hsl(220 17% 92%) 100%);
+    --card-bg: hsl(210 40% 98%);
+    --card-gradient: linear-gradient(145deg, hsl(210 40% 98%) 0%, hsl(210 40% 96%) 100%);
+    
+    /* Soft mode - less harsh whites */
+    --card-soft: hsl(210 40% 97%);
+    --bg-soft: hsl(210 40% 95%);
     
     /* Legacy theme compatibility */
-    --background: var(--gray-50);
+    --background: hsl(210 40% 96%);
     --foreground: var(--gray-900);
-    --card: var(--white);
+    --card: hsl(210 40% 98%);
     --card-foreground: var(--gray-900);
-    --popover: var(--white);
+    --popover: hsl(210 40% 98%);
     --popover-foreground: var(--gray-900);
-    --muted: var(--gray-100);
+    --muted: hsl(210 40% 94%);
     --muted-foreground: var(--gray-500);
     --border: var(--gray-200);
     --input: var(--gray-200);
@@ -151,7 +155,7 @@
 @layer components {
   /* Modern Card Component */
   .card {
-    background: hsl(var(--white));
+    background: hsl(var(--card-soft));
     border-radius: var(--radius);
     padding: var(--space-md);
     box-shadow: var(--shadow-md);

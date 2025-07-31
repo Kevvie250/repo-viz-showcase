@@ -14,7 +14,7 @@ export default function Layout({ children }: LayoutProps) {
         <div className="flex-1 flex flex-col">
           {/* Header */}
           <header style={{
-            background: 'hsl(var(--white))',
+            background: 'hsl(var(--card-soft))',
             borderBottom: '1px solid hsl(var(--gray-200))',
             boxShadow: 'var(--shadow)'
           }}>
