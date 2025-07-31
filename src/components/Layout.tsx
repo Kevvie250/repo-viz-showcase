@@ -43,7 +43,7 @@ export default function Layout({ children }: LayoutProps) {
         </header>
 
         {/* Sidebar and main content below header */}
-        <div className="flex w-full pt-36">
+        <div className="flex w-full pt-48">
           <AppSidebar />
           
           <main className="flex-1 page-wrapper">
