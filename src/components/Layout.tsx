@@ -43,16 +43,15 @@ export default function Layout({ children }: LayoutProps) {
           </div>
         </header>
 
-        {/* Sidebar and main content below header with proper top margin */}
-        <div className="flex w-full mt-48">
-          <AppSidebar />
-          
-          <main className="flex-1 page-wrapper">
-            <div className="container">
-              {children}
-            </div>
-          </main>
-        </div>
+        {/* Sidebar positioned below header */}
+        <AppSidebar className="fixed top-48 left-0 h-[calc(100vh-12rem)] z-40" />
+        
+        {/* Main content with proper margins for header and sidebar */}
+        <main className="flex-1 page-wrapper ml-60 mt-48">
+          <div className="container">
+            {children}
+          </div>
+        </main>
       </div>
     </SidebarProvider>
   );

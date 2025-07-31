@@ -27,14 +27,18 @@ const items = [
   { title: "Franchisees", url: "/franchisees", icon: Users },
 ];
 
-export function AppSidebar() {
+interface AppSidebarProps {
+  className?: string;
+}
+
+export function AppSidebar({ className }: AppSidebarProps = {}) {
   const location = useLocation();
   const currentPath = location.pathname;
 
   const isActive = (path: string) => currentPath === path;
 
   return (
-    <Sidebar className="w-60" collapsible="icon">
+    <Sidebar className={`w-60 ${className || ""}`} collapsible="icon">
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Navigation</SidebarGroupLabel>
