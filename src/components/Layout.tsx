@@ -10,7 +10,7 @@ export default function Layout({ children }: LayoutProps) {
     <SidebarProvider>
       <div className="min-h-screen w-full">
         {/* Header spans full width */}
-        <header className="franchise-header">
+        <header className="franchise-header fixed top-0 left-0 right-0 z-50">
           <div className="header-background-pattern"></div>
           <div className="flex items-center justify-between px-6 py-6 relative z-10">
             <div className="flex items-center gap-4">
@@ -43,10 +43,10 @@ export default function Layout({ children }: LayoutProps) {
         </header>
 
         {/* Sidebar and main content below header */}
-        <div className="flex w-full" style={{ height: 'calc(100vh - 140px)' }}>
+        <div className="flex w-full pt-36">
           <AppSidebar />
           
-          <main className="flex-1 page-wrapper overflow-auto">
+          <main className="flex-1 page-wrapper">
             <div className="container">
               {children}
             </div>
