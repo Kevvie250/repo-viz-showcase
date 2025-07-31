@@ -1,8 +1,40 @@
 import { mockData } from "@/data/mockData";
+import { StatusDashboard } from "@/components/StatusDashboard";
+import { DataVisualization } from "@/components/DataVisualization";
 
 const Index = () => {
+  const statusData = {
+    uptime: 99.9,
+    responseTime: 145,
+    totalIssues: mockData.issues.critical.length + mockData.issues.quality.length + mockData.issues.administrative.length,
+    resolvedToday: 3,
+    criticalCount: mockData.issues.critical.length
+  };
+
+  const issuesTrendData = [
+    { label: 'Critical', value: mockData.issues.critical.length, color: 'hsl(var(--danger))' },
+    { label: 'Quality', value: mockData.issues.quality.length, color: 'hsl(var(--warning))' },
+    { label: 'Admin', value: mockData.issues.administrative.length, color: 'hsl(var(--primary))' }
+  ];
+
+  const complianceData = [
+    { 
+      label: 'Compliant', 
+      value: Math.round((mockData.franchisees.filter(f => f.compliance === 'Compliant').length / mockData.franchisees.length) * 100), 
+      color: 'hsl(var(--success))' 
+    },
+    { 
+      label: 'Non-Compliant', 
+      value: Math.round((mockData.franchisees.filter(f => f.compliance === 'Non-Compliant').length / mockData.franchisees.length) * 100), 
+      color: 'hsl(var(--danger))' 
+    }
+  ];
+
   return (
     <div style={{ paddingTop: 'var(--space-lg)' }}>
+      {/* Status Dashboard */}
+      <StatusDashboard data={statusData} />
+
       {/* Statistics Cards */}
       <section className="section">
         <div className="section-header">
@@ -16,7 +48,7 @@ const Index = () => {
         <div className="grid grid-cols-auto" style={{ 
           gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))'
         }}>
-          <div className="card hover-lift">
+          <div className="card hover-lift realtime-update">
             <div className="flex items-center justify-between">
               <div>
                 <p className="caption" style={{ color: 'hsl(var(--gray-500))' }}>Critical Issues</p>
@@ -34,7 +66,7 @@ const Index = () => {
                 padding: 'var(--space)',
                 borderRadius: 'var(--radius)',
                 background: 'hsl(var(--danger-bg))'
-              }}>
+              }} className="status-indicator status-offline">
                 <i className="fas fa-exclamation-triangle" style={{ 
                   fontSize: '1.25rem',
                   color: 'hsl(var(--danger))'
@@ -61,7 +93,7 @@ const Index = () => {
                 padding: 'var(--space)',
                 borderRadius: 'var(--radius)',
                 background: 'hsl(var(--warning-bg))'
-              }}>
+              }} className="status-indicator status-warning">
                 <i className="fas fa-exclamation-circle" style={{ 
                   fontSize: '1.25rem',
                   color: 'hsl(var(--warning))'
@@ -88,7 +120,7 @@ const Index = () => {
                 padding: 'var(--space)',
                 borderRadius: 'var(--radius)',
                 background: 'hsl(var(--success-bg))'
-              }}>
+              }} className="status-indicator">
                 <i className="fas fa-server" style={{ 
                   fontSize: '1.25rem',
                   color: 'hsl(var(--success))'
@@ -115,7 +147,7 @@ const Index = () => {
                 padding: 'var(--space)',
                 borderRadius: 'var(--radius)',
                 background: 'hsl(var(--success-bg))'
-              }}>
+              }} className="status-indicator">
                 <i className="fas fa-building" style={{ 
                   fontSize: '1.25rem',
                   color: 'hsl(var(--success))'
@@ -123,6 +155,30 @@ const Index = () => {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Data Visualizations */}
+      <section className="section">
+        <div className="section-header">
+          <h2 className="section-title">
+            <i className="fas fa-chart-bar" style={{ color: 'hsl(var(--primary))' }}></i>
+            Analytics & Trends
+          </h2>
+          <p className="caption">Performance metrics and compliance tracking</p>
+        </div>
+        
+        <div className="grid grid-cols-2 gap-6">
+          <DataVisualization 
+            title="Issues by Type" 
+            data={issuesTrendData} 
+            type="chart" 
+          />
+          <DataVisualization 
+            title="Compliance Status" 
+            data={complianceData} 
+            type="progress" 
+          />
         </div>
       </section>
 
@@ -147,7 +203,12 @@ const Index = () => {
                   <i className="fas fa-exclamation-triangle" style={{ color: 'hsl(var(--danger))' }}></i>
                   <h3 style={{ fontWeight: '600', fontSize: '1.125rem' }}>{issue.type}</h3>
                 </div>
-                <span className="badge badge-critical">Critical</span>
+                <div className="flex items-center gap-2">
+                  <span className="badge badge-critical">Critical</span>
+                  <button className="btn btn-critical btn-sm btn-urgent">
+                    Take Action
+                  </button>
+                </div>
               </div>
               <p className="body-text text-muted mb-4">{issue.description}</p>
               <div className="flex items-center gap-4 text-sm text-muted">

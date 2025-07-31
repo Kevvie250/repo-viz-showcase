@@ -165,7 +165,11 @@
     border-color: hsl(var(--primary));
   }
   
-  /* Button Styles */
+  .card.compact {
+    padding: var(--space-sm) var(--space);
+  }
+  
+  /* Enhanced Button Styles */
   .btn {
     padding: 12px 24px;
     border: none;
@@ -191,6 +195,22 @@
     box-shadow: var(--shadow-colored);
   }
   
+  .btn-critical {
+    background: linear-gradient(135deg, hsl(var(--danger)), hsl(var(--danger-hover)));
+    color: white;
+    font-weight: 700;
+    box-shadow: 0 4px 12px hsl(var(--danger) / 0.3);
+  }
+  
+  .btn-critical:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px hsl(var(--danger) / 0.4);
+  }
+  
+  .btn-urgent {
+    animation: pulse-urgent 2s infinite;
+  }
+  
   .btn-sm {
     padding: 8px 16px;
     font-size: 14px;
@@ -204,6 +224,162 @@
   
   .btn-outline:hover {
     background: hsl(var(--gray-50));
+  }
+  
+  /* Status Indicators */
+  .status-indicator {
+    position: relative;
+  }
+  
+  .status-indicator::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: hsl(var(--success));
+    animation: pulse-status 2s infinite;
+    z-index: 1;
+  }
+  
+  .status-offline::before {
+    background: hsl(var(--danger));
+  }
+  
+  .status-warning::before {
+    background: hsl(var(--warning));
+  }
+  
+  /* Advanced Filters */
+  .advanced-filters {
+    background: hsl(var(--gray-50));
+    border: 1px solid hsl(var(--gray-200));
+    padding: var(--space);
+    border-radius: var(--radius);
+    margin-bottom: var(--space-lg);
+  }
+  
+  .filter-chips {
+    display: flex;
+    gap: var(--space-sm);
+    margin-top: var(--space-sm);
+    flex-wrap: wrap;
+  }
+  
+  .filter-chip {
+    background: hsl(var(--primary-bg));
+    color: hsl(var(--primary));
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    border: 1px solid hsl(var(--primary-light));
+  }
+  
+  .filter-chip .remove {
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  /* Dropdown Styles */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: hsl(var(--white));
+    border: 1px solid hsl(var(--gray-200));
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    min-width: 160px;
+    z-index: 1000;
+    padding: var(--space-sm) 0;
+  }
+  
+  .dropdown-item {
+    display: block;
+    padding: var(--space-sm) var(--space);
+    color: hsl(var(--gray-700));
+    text-decoration: none;
+    transition: var(--transition);
+  }
+  
+  .dropdown-item:hover {
+    background: hsl(var(--gray-50));
+    color: hsl(var(--primary));
+  }
+  
+  /* Data Tables */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  
+  .data-table th {
+    padding: var(--space-sm) var(--space);
+    background: hsl(var(--gray-50));
+    font-weight: 600;
+    text-align: left;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid hsl(var(--gray-200));
+  }
+  
+  .data-table td {
+    padding: var(--space-sm) var(--space);
+    border-bottom: 1px solid hsl(var(--gray-100));
+  }
+  
+  .data-table tbody tr:hover {
+    background: hsl(var(--gray-50));
+  }
+  
+  /* Progress and Health Indicators */
+  .health-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  
+  .health-good {
+    background: hsl(var(--success-bg));
+    color: hsl(var(--success));
+  }
+  
+  .health-warning {
+    background: hsl(var(--warning-bg));
+    color: hsl(var(--warning));
+  }
+  
+  .health-critical {
+    background: hsl(var(--danger-bg));
+    color: hsl(var(--danger));
+  }
+  
+  /* Real-time Updates */
+  .realtime-update {
+    background: linear-gradient(90deg, 
+      hsl(var(--primary) / 0.1), 
+      hsl(var(--primary) / 0.05), 
+      hsl(var(--primary) / 0.1)
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
   }
   
   /* Badge Styles */
@@ -296,6 +472,22 @@
   
   .hover-glow:hover {
     box-shadow: 0 8px 25px hsl(var(--primary) / 0.3);
+  }
+  
+  /* Animations */
+  @keyframes pulse-urgent {
+    0%, 100% { transform: scale(1); box-shadow: 0 4px 12px hsl(var(--danger) / 0.3); }
+    50% { transform: scale(1.02); box-shadow: 0 6px 16px hsl(var(--danger) / 0.4); }
+  }
+  
+  @keyframes pulse-status {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.2); }
+  }
+  
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
   }
 }
 

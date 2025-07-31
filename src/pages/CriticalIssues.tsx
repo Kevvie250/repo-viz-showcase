@@ -1,6 +1,34 @@
 import { mockData } from "@/data/mockData";
+import { useState } from "react";
+import { AdvancedFilters } from "@/components/AdvancedFilters";
 
 const CriticalIssues = () => {
+  const [activeFilters, setActiveFilters] = useState<string[]>([]);
+
+  const handleFilterChange = (filterId: string) => {
+    setActiveFilters(prev => 
+      prev.includes(filterId) 
+        ? prev.filter(f => f !== filterId)
+        : [...prev, filterId]
+    );
+  };
+
+  const handleRemoveFilter = (filterId: string) => {
+    setActiveFilters(prev => prev.filter(f => f !== filterId));
+  };
+
+  const filteredIssues = mockData.issues.critical.filter(issue => {
+    if (activeFilters.length === 0) return true;
+    return activeFilters.some(filter => {
+      switch (filter) {
+        case 'critical':
+          return issue.priority === 'Critical';
+        default:
+          return true;
+      }
+    });
+  });
+
   return (
     <div style={{ paddingTop: 'var(--space-lg)' }}>
       <div className="section-header">
@@ -10,15 +38,23 @@ const CriticalIssues = () => {
         </h2>
         <p className="caption">Issues requiring immediate attention and resolution</p>
       </div>
+
+      <AdvancedFilters
+        onFilterChange={handleFilterChange}
+        activeFilters={activeFilters}
+        onRemoveFilter={handleRemoveFilter}
+      />
       
       <div className="grid grid-cols-auto">
-        {mockData.issues.critical.map((issue) => (
+        {filteredIssues.map((issue) => (
           <div key={issue.id} className="card hover-lift" style={{
             borderLeft: '4px solid hsl(var(--danger))'
           }}>
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <i className="fas fa-exclamation-triangle" style={{ color: 'hsl(var(--danger))' }}></i>
+                <div className="status-indicator status-offline">
+                  <i className="fas fa-exclamation-triangle" style={{ color: 'hsl(var(--danger))' }}></i>
+                </div>
                 <h3 style={{ fontWeight: '600', fontSize: '1.125rem' }}>{issue.type}</h3>
               </div>
               <div className="flex items-center gap-2">
@@ -44,7 +80,10 @@ const CriticalIssues = () => {
             </div>
             <div className="flex gap-2">
               <button className="btn btn-outline btn-sm">View Details</button>
-              <button className="btn btn-primary btn-sm">Take Action</button>
+              <button className="btn btn-critical btn-sm btn-urgent">
+                <i className="fas fa-fire"></i>
+                Take Action Now
+              </button>
               <button className="btn btn-outline btn-sm">
                 <i className="fas fa-user-plus"></i>
                 Assign
@@ -54,7 +93,7 @@ const CriticalIssues = () => {
         ))}
       </div>
 
-      {mockData.issues.critical.length === 0 && (
+      {filteredIssues.length === 0 && (
         <div className="card text-center" style={{ padding: 'var(--space-xl)' }}>
           <i className="fas fa-check-circle" style={{ 
             fontSize: '3rem', 
@@ -62,7 +101,12 @@ const CriticalIssues = () => {
             marginBottom: 'var(--space)'
           }}></i>
           <h3 style={{ marginBottom: 'var(--space-sm)' }}>No Critical Issues</h3>
-          <p className="text-muted">All critical issues have been resolved. Great work!</p>
+          <p className="text-muted">
+            {activeFilters.length > 0 
+              ? "No critical issues match your current filters."
+              : "All critical issues have been resolved. Great work!"
+            }
+          </p>
         </div>
       )}
     </div>
