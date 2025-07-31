@@ -571,7 +571,13 @@
     0% { background-position: -200% 0; }
     100% { background-position: 200% 0; }
   }
-}
+  }
+  
+  /* Sidebar positioning below header */
+  [data-sidebar] {
+    top: 192px !important;
+    height: calc(100vh - 192px) !important;
+  }
 
 @layer utilities {
   .text-center { text-align: center; }
