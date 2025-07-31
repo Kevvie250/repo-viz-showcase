@@ -1,3 +1,4 @@
+
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 
@@ -10,7 +11,7 @@ export default function Layout({ children }: LayoutProps) {
     <SidebarProvider>
       <div className="min-h-screen w-full">
         {/* Header spans full width */}
-        <header className="franchise-header fixed top-0 left-0 right-0 z-50">
+        <header className="franchise-header fixed top-0 left-0 right-0 z-50 h-48">
           <div className="header-background-pattern"></div>
           <div className="flex items-center justify-between px-6 py-6 relative z-10">
             <div className="flex items-center gap-4">
@@ -42,8 +43,8 @@ export default function Layout({ children }: LayoutProps) {
           </div>
         </header>
 
-        {/* Sidebar and main content below header */}
-        <div className="flex w-full pt-48">
+        {/* Sidebar and main content below header with proper top margin */}
+        <div className="flex w-full mt-48">
           <AppSidebar />
           
           <main className="flex-1 page-wrapper">
