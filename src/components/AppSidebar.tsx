@@ -36,10 +36,6 @@ export function AppSidebar() {
   return (
     <Sidebar className="w-60" collapsible="icon">
       <SidebarContent>
-        <div className="p-4 border-b">
-          <h2 className="font-bold text-lg">Quality Dashboard</h2>
-        </div>
-        
         <SidebarGroup>
           <SidebarGroupLabel>Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
