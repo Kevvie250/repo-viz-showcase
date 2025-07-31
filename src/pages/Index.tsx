@@ -73,25 +73,25 @@ const Index = () => {
           <div className="card hover-lift">
             <div className="flex items-center justify-between">
               <div>
-                <p className="caption" style={{ color: 'hsl(var(--gray-500))' }}>Admin Issues</p>
+                <p className="caption" style={{ color: 'hsl(var(--gray-500))' }}>System Health</p>
                 <p style={{ 
                   fontSize: '2rem', 
                   fontWeight: 'bold', 
-                  color: 'hsl(var(--primary))',
+                  color: 'hsl(var(--success))',
                   margin: '0.5rem 0'
                 }}>
-                  {mockData.issues.administrative.length}
+                  99.9%
                 </p>
-                <p className="caption">Documentation & compliance</p>
+                <p className="caption">Uptime this month</p>
               </div>
               <div style={{
                 padding: 'var(--space)',
                 borderRadius: 'var(--radius)',
-                background: 'hsl(var(--primary-bg))'
+                background: 'hsl(var(--success-bg))'
               }}>
-                <i className="fas fa-file-alt" style={{ 
+                <i className="fas fa-server" style={{ 
                   fontSize: '1.25rem',
-                  color: 'hsl(var(--primary))'
+                  color: 'hsl(var(--success))'
                 }}></i>
               </div>
             </div>
@@ -215,10 +215,10 @@ const Index = () => {
                   <p className="caption">Quality</p>
                 </div>
                 <div>
-                  <p style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'hsl(var(--primary))' }}>
-                    {mockData.issues.administrative.filter(issue => issue.franchisee === franchisee.name).length}
+                  <p style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'hsl(var(--success))' }}>
+                    Online
                   </p>
-                  <p className="caption">Admin</p>
+                  <p className="caption">Status</p>
                 </div>
               </div>
             </div>

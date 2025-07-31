@@ -23,7 +23,7 @@ const items = [
   { title: "Overview", url: "/", icon: Home },
   { title: "Critical Issues", url: "/critical", icon: AlertTriangle },
   { title: "Quality Issues", url: "/quality", icon: AlertCircle },
-  { title: "Administrative", url: "/administrative", icon: FileText },
+  { title: "Settings", url: "/settings", icon: FileText },
   { title: "Franchisees", url: "/franchisees", icon: Users },
 ];
 

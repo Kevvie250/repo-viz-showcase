@@ -7,7 +7,7 @@ import Layout from "@/components/Layout";
 import Index from "./pages/Index";
 import CriticalIssues from "./pages/CriticalIssues";
 import QualityIssues from "./pages/QualityIssues";
-import AdministrativeIssues from "./pages/AdministrativeIssues";
+import Settings from "./pages/Settings";
 import Franchisees from "./pages/Franchisees";
 import NotFound from "./pages/NotFound";
 
@@ -24,7 +24,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/critical" element={<CriticalIssues />} />
             <Route path="/quality" element={<QualityIssues />} />
-            <Route path="/administrative" element={<AdministrativeIssues />} />
+            <Route path="/settings" element={<Settings />} />
             <Route path="/franchisees" element={<Franchisees />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
