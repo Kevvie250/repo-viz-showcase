@@ -464,6 +464,84 @@
     margin-bottom: var(--space-md);
   }
   
+  /* Franchise Header */
+  .franchise-header {
+    background: linear-gradient(135deg, #0EA5E9 0%, #0284C7 50%, #0369A1 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .header-background-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      radial-gradient(circle at 10% 20%, rgba(255,255,255,0.1) 0%, transparent 20%),
+      radial-gradient(circle at 80% 80%, rgba(255,255,255,0.05) 0%, transparent 20%),
+      radial-gradient(circle at 40% 40%, rgba(255,255,255,0.03) 0%, transparent 20%);
+  }
+  
+  .franchise-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .logo-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  
+  .logo-circle::before {
+    content: '';
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid #0369A1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .logo-inner {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #0369A1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+  
+  .logo-text {
+    text-align: center;
+    font-size: 8px;
+    font-weight: bold;
+    line-height: 1.1;
+  }
+  
+  .logo-brand {
+    font-size: 10px;
+    letter-spacing: 0.5px;
+  }
+  
+  .logo-tagline {
+    font-size: 6px;
+    margin-top: 2px;
+    opacity: 0.9;
+    letter-spacing: 0.3px;
+  }
+
   /* Interactive Effects */
   .hover-lift:hover {
     transform: translateY(-4px);
