@@ -1,77 +1,57 @@
-import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  AlertTriangle, 
-  AlertCircle, 
-  FileText, 
-  Calendar,
-  MapPin,
-  User,
-  Phone,
-  Mail,
-  Building,
-  Clock,
-  CheckCircle,
-  XCircle,
-  Filter,
-  Search,
-  Download
-} from "lucide-react";
-import { Input } from "@/components/ui/input";
+import React from 'react';
 
-// Mock data based on the uploaded image structure
+// Mock data based on your requirements
 const mockData = {
   franchisees: [
     {
       id: 1,
-      name: "John Smith",
-      location: "Downtown Location",
+      name: "KELOWNA FRANCHISE",
+      location: "Downtown Location", 
       phone: "(555) 123-4567",
-      email: "john@location.com",
+      email: "kelowna@purair.com",
       status: "Active",
-      lastAudit: "2024-01-15"
+      lastAudit: "2024-01-15",
+      compliance: "Compliant"
     },
     {
-      id: 2,
-      name: "Sarah Johnson",
+      id: 2, 
+      name: "VANCOUVER FRANCHISE",
       location: "North Branch",
-      phone: "(555) 987-6543",
-      email: "sarah@northbranch.com",
+      phone: "(555) 987-6543", 
+      email: "vancouver@purair.com",
       status: "Under Review",
-      lastAudit: "2024-01-10"
+      lastAudit: "2024-01-10",
+      compliance: "Non-Compliant"
     }
   ],
   issues: {
     critical: [
       {
         id: 1,
-        franchisee: "Downtown Location",
-        type: "Safety Violation",
-        description: "Fire safety equipment not maintained",
+        franchisee: "KELOWNA FRANCHISE",
+        type: "Safety Violation", 
+        description: "Fire safety equipment not maintained properly",
         dateReported: "2024-01-20",
-        priority: "High",
+        priority: "Critical",
         status: "Open"
       },
       {
         id: 2,
-        franchisee: "North Branch",
+        franchisee: "VANCOUVER FRANCHISE", 
         type: "Health Code",
-        description: "Temperature control failure",
+        description: "Temperature control system failure detected",
         dateReported: "2024-01-18",
-        priority: "Critical",
+        priority: "Critical", 
         status: "In Progress"
       }
     ],
     quality: [
       {
         id: 3,
-        franchisee: "Downtown Location",
+        franchisee: "KELOWNA FRANCHISE",
         type: "Service Standards",
-        description: "Customer service response time exceeded",
-        dateReported: "2024-01-19",
+        description: "Customer service response time exceeded standards",
+        dateReported: "2024-01-19", 
         priority: "Medium",
         status: "Open"
       }
@@ -79,11 +59,11 @@ const mockData = {
     administrative: [
       {
         id: 4,
-        franchisee: "North Branch",
+        franchisee: "VANCOUVER FRANCHISE",
         type: "Documentation",
-        description: "Missing quarterly reports",
+        description: "Missing quarterly compliance reports",
         dateReported: "2024-01-17",
-        priority: "Low",
+        priority: "Low", 
         status: "Resolved"
       }
     ]
@@ -91,283 +71,327 @@ const mockData = {
 };
 
 const QualityDashboard = () => {
-  const [activeTab, setActiveTab] = useState("overview");
-  const [searchTerm, setSearchTerm] = useState("");
-
-  const getSeverityBadge = (priority: string) => {
-    switch (priority) {
-      case "Critical":
-        return <Badge className="bg-critical text-critical-foreground">Critical</Badge>;
-      case "High":
-        return <Badge className="bg-warning text-warning-foreground">High</Badge>;
-      case "Medium":
-        return <Badge className="bg-info text-info-foreground">Medium</Badge>;
-      case "Low":
-        return <Badge className="bg-success text-success-foreground">Low</Badge>;
-      default:
-        return <Badge variant="secondary">{priority}</Badge>;
-    }
-  };
-
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case "Resolved":
-        return <CheckCircle className="h-4 w-4 text-success" />;
-      case "In Progress":
-        return <Clock className="h-4 w-4 text-warning" />;
-      case "Open":
-        return <XCircle className="h-4 w-4 text-critical" />;
-      default:
-        return <AlertCircle className="h-4 w-4 text-muted-foreground" />;
-    }
-  };
-
-  const IssueCard = ({ issue, icon }: { issue: any; icon: React.ReactNode }) => (
-    <Card className="shadow-card hover:shadow-card-hover transition-all duration-200 border-l-4 border-l-primary">
-      <CardHeader className="pb-3">
-        <div className="flex items-start justify-between">
-          <div className="flex items-center gap-2">
-            {icon}
-            <CardTitle className="text-lg font-semibold">{issue.type}</CardTitle>
-          </div>
-          <div className="flex items-center gap-2">
-            {getSeverityBadge(issue.priority)}
-            {getStatusIcon(issue.status)}
-          </div>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <p className="text-muted-foreground mb-4">{issue.description}</p>
-        <div className="space-y-2 text-sm">
-          <div className="flex items-center gap-2">
-            <Building className="h-4 w-4 text-muted-foreground" />
-            <span>{issue.franchisee}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Calendar className="h-4 w-4 text-muted-foreground" />
-            <span>{issue.dateReported}</span>
-          </div>
-        </div>
-        <div className="flex gap-2 mt-4">
-          <Button size="sm" variant="outline">View Details</Button>
-          <Button size="sm">Take Action</Button>
-        </div>
-      </CardContent>
-    </Card>
-  );
-
-  const FranchiseeCard = ({ franchisee }: { franchisee: any }) => (
-    <Card className="shadow-card hover:shadow-card-hover transition-all duration-200">
-      <CardHeader>
-        <div className="flex items-start justify-between">
-          <div>
-            <CardTitle className="flex items-center gap-2">
-              <User className="h-5 w-5" />
-              {franchisee.name}
-            </CardTitle>
-            <p className="text-sm text-muted-foreground mt-1">{franchisee.location}</p>
-          </div>
-          <Badge variant={franchisee.status === "Active" ? "default" : "secondary"}>
-            {franchisee.status}
-          </Badge>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-2 text-sm">
-          <div className="flex items-center gap-2">
-            <Phone className="h-4 w-4 text-muted-foreground" />
-            <span>{franchisee.phone}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Mail className="h-4 w-4 text-muted-foreground" />
-            <span>{franchisee.email}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Calendar className="h-4 w-4 text-muted-foreground" />
-            <span>Last audit: {franchisee.lastAudit}</span>
-          </div>
-        </div>
-        <div className="flex gap-2 mt-4">
-          <Button size="sm" variant="outline">View Profile</Button>
-          <Button size="sm">Schedule Audit</Button>
-        </div>
-      </CardContent>
-    </Card>
-  );
-
-  const StatsCard = ({ title, value, icon, trend, color }: any) => (
-    <Card className="shadow-card">
-      <CardContent className="p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm font-medium text-muted-foreground">{title}</p>
-            <p className={`text-2xl font-bold ${color}`}>{value}</p>
-            {trend && <p className="text-xs text-muted-foreground mt-1">{trend}</p>}
-          </div>
-          <div className={`p-3 rounded-lg ${color === 'text-critical' ? 'bg-critical-light' : 
-            color === 'text-warning' ? 'bg-warning-light' : 'bg-info-light'}`}>
-            {icon}
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
-
   return (
-    <div className="min-h-screen bg-dashboard-bg">
+    <div className="page-wrapper">
       {/* Header */}
-      <div className="border-b bg-card shadow-header">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
+      <header style={{
+        background: 'hsl(var(--white))',
+        borderBottom: '1px solid hsl(var(--gray-200))',
+        boxShadow: 'var(--shadow)'
+      }}>
+        <div className="container">
+          <div className="flex items-center justify-between" style={{ padding: 'var(--space) 0' }}>
             <div>
-              <h1 className="text-2xl font-bold text-foreground">Quality Dashboard</h1>
-              <p className="text-muted-foreground">Monitor and manage franchise quality standards</p>
+              <h1 className="franchise-name">Quality Monitoring Dashboard</h1>
+              <p className="caption">Monitor and manage franchise quality standards</p>
             </div>
-            <div className="flex items-center gap-3">
-              <Button variant="outline" size="sm">
-                <Filter className="h-4 w-4 mr-2" />
+            <div className="flex gap-2">
+              <button className="btn btn-outline btn-sm">
+                <i className="fas fa-filter"></i>
                 Filter
-              </Button>
-              <Button variant="outline" size="sm">
-                <Download className="h-4 w-4 mr-2" />
+              </button>
+              <button className="btn btn-outline btn-sm">
+                <i className="fas fa-download"></i>
                 Export
-              </Button>
+              </button>
             </div>
           </div>
         </div>
-      </div>
+      </header>
 
-      <div className="container mx-auto px-6 py-6">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 lg:w-[400px]">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="critical">Critical</TabsTrigger>
-            <TabsTrigger value="quality">Quality</TabsTrigger>
-            <TabsTrigger value="admin">Admin</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="overview" className="space-y-6">
-            {/* Statistics Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <StatsCard
-                title="Critical Issues"
-                value={mockData.issues.critical.length}
-                icon={<AlertTriangle className="h-5 w-5" />}
-                trend="+2 from last week"
-                color="text-critical"
-              />
-              <StatsCard
-                title="Quality Issues"
-                value={mockData.issues.quality.length}
-                icon={<AlertCircle className="h-5 w-5" />}
-                trend="-1 from last week"
-                color="text-warning"
-              />
-              <StatsCard
-                title="Admin Issues"
-                value={mockData.issues.administrative.length}
-                icon={<FileText className="h-5 w-5" />}
-                trend="No change"
-                color="text-info"
-              />
-              <StatsCard
-                title="Active Franchisees"
-                value={mockData.franchisees.length}
-                icon={<Building className="h-5 w-5" />}
-                trend="+1 new this month"
-                color="text-success"
-              />
-            </div>
-
-            {/* Recent Issues */}
-            <div className="space-y-4">
+      <main className="container">
+        {/* Statistics Cards */}
+        <section className="section">
+          <div className="grid grid-cols-auto" style={{ 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+            marginTop: 'var(--space-lg)'
+          }}>
+            <div className="card hover-lift">
               <div className="flex items-center justify-between">
-                <h2 className="text-xl font-semibold">Recent Issues</h2>
-                <div className="flex items-center gap-2">
-                  <Search className="h-4 w-4 text-muted-foreground" />
-                  <Input
-                    placeholder="Search issues..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-64"
-                  />
+                <div>
+                  <p className="caption" style={{ color: 'hsl(var(--gray-500))' }}>Critical Issues</p>
+                  <p style={{ 
+                    fontSize: '2rem', 
+                    fontWeight: 'bold', 
+                    color: 'hsl(var(--danger))',
+                    margin: '0.5rem 0'
+                  }}>
+                    {mockData.issues.critical.length}
+                  </p>
+                  <p className="caption">+2 from last week</p>
+                </div>
+                <div style={{
+                  padding: 'var(--space)',
+                  borderRadius: 'var(--radius)',
+                  background: 'hsl(var(--danger-bg))'
+                }}>
+                  <i className="fas fa-exclamation-triangle" style={{ 
+                    fontSize: '1.25rem',
+                    color: 'hsl(var(--danger))'
+                  }}></i>
                 </div>
               </div>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                {mockData.issues.critical.slice(0, 2).map((issue) => (
-                  <IssueCard
-                    key={issue.id}
-                    issue={issue}
-                    icon={<AlertTriangle className="h-5 w-5 text-critical" />}
-                  />
-                ))}
-                {mockData.issues.quality.slice(0, 1).map((issue) => (
-                  <IssueCard
-                    key={issue.id}
-                    issue={issue}
-                    icon={<AlertCircle className="h-5 w-5 text-warning" />}
-                  />
-                ))}
+            </div>
+
+            <div className="card hover-lift">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="caption" style={{ color: 'hsl(var(--gray-500))' }}>Quality Issues</p>
+                  <p style={{ 
+                    fontSize: '2rem', 
+                    fontWeight: 'bold', 
+                    color: 'hsl(var(--warning))',
+                    margin: '0.5rem 0'
+                  }}>
+                    {mockData.issues.quality.length}
+                  </p>
+                  <p className="caption">-1 from last week</p>
+                </div>
+                <div style={{
+                  padding: 'var(--space)',
+                  borderRadius: 'var(--radius)',
+                  background: 'hsl(var(--warning-bg))'
+                }}>
+                  <i className="fas fa-exclamation-circle" style={{ 
+                    fontSize: '1.25rem',
+                    color: 'hsl(var(--warning))'
+                  }}></i>
+                </div>
               </div>
             </div>
 
-            {/* Franchisees */}
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold">Franchisees</h2>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                {mockData.franchisees.map((franchisee) => (
-                  <FranchiseeCard key={franchisee.id} franchisee={franchisee} />
-                ))}
+            <div className="card hover-lift">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="caption" style={{ color: 'hsl(var(--gray-500))' }}>Admin Issues</p>
+                  <p style={{ 
+                    fontSize: '2rem', 
+                    fontWeight: 'bold', 
+                    color: 'hsl(var(--primary))',
+                    margin: '0.5rem 0'
+                  }}>
+                    {mockData.issues.administrative.length}
+                  </p>
+                  <p className="caption">No change</p>
+                </div>
+                <div style={{
+                  padding: 'var(--space)',
+                  borderRadius: 'var(--radius)',
+                  background: 'hsl(var(--primary-bg))'
+                }}>
+                  <i className="fas fa-file-alt" style={{ 
+                    fontSize: '1.25rem',
+                    color: 'hsl(var(--primary))'
+                  }}></i>
+                </div>
               </div>
             </div>
-          </TabsContent>
 
-          <TabsContent value="critical" className="space-y-6">
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-critical">🚨 Critical Issues</h2>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                {mockData.issues.critical.map((issue) => (
-                  <IssueCard
-                    key={issue.id}
-                    issue={issue}
-                    icon={<AlertTriangle className="h-5 w-5 text-critical" />}
-                  />
-                ))}
+            <div className="card hover-lift">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="caption" style={{ color: 'hsl(var(--gray-500))' }}>Active Franchisees</p>
+                  <p style={{ 
+                    fontSize: '2rem', 
+                    fontWeight: 'bold', 
+                    color: 'hsl(var(--success))',
+                    margin: '0.5rem 0'
+                  }}>
+                    {mockData.franchisees.length}
+                  </p>
+                  <p className="caption">+1 new this month</p>
+                </div>
+                <div style={{
+                  padding: 'var(--space)',
+                  borderRadius: 'var(--radius)',
+                  background: 'hsl(var(--success-bg))'
+                }}>
+                  <i className="fas fa-building" style={{ 
+                    fontSize: '1.25rem',
+                    color: 'hsl(var(--success))'
+                  }}></i>
+                </div>
               </div>
             </div>
-          </TabsContent>
+          </div>
+        </section>
 
-          <TabsContent value="quality" className="space-y-6">
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-warning">⚠️ Quality Issues</h2>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                {mockData.issues.quality.map((issue) => (
-                  <IssueCard
-                    key={issue.id}
-                    issue={issue}
-                    icon={<AlertCircle className="h-5 w-5 text-warning" />}
-                  />
-                ))}
+        {/* Critical Issues Section */}
+        <section className="section">
+          <div className="section-header">
+            <h2 className="section-title">
+              <i className="fas fa-exclamation-triangle" style={{ color: 'hsl(var(--danger))' }}></i>
+              Critical Issues
+            </h2>
+          </div>
+          <div className="grid grid-cols-auto">
+            {mockData.issues.critical.map((issue) => (
+              <div key={issue.id} className="card hover-lift" style={{
+                borderLeft: '4px solid hsl(var(--danger))'
+              }}>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <i className="fas fa-exclamation-triangle" style={{ color: 'hsl(var(--danger))' }}></i>
+                    <h3 style={{ fontWeight: '600', fontSize: '1.125rem' }}>{issue.type}</h3>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="badge badge-critical">Critical</span>
+                    <i className={`fas ${issue.status === 'Open' ? 'fa-times-circle' : 'fa-clock'}`} 
+                       style={{ color: issue.status === 'Open' ? 'hsl(var(--danger))' : 'hsl(var(--warning))' }}></i>
+                  </div>
+                </div>
+                <p className="body-text text-muted mb-4">{issue.description}</p>
+                <div style={{ marginBottom: 'var(--space)' }}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <i className="fas fa-building" style={{ color: 'hsl(var(--gray-400))' }}></i>
+                    <span style={{ fontSize: '14px' }}>{issue.franchisee}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <i className="fas fa-calendar" style={{ color: 'hsl(var(--gray-400))' }}></i>
+                    <span style={{ fontSize: '14px' }}>{issue.dateReported}</span>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <button className="btn btn-outline btn-sm">View Details</button>
+                  <button className="btn btn-primary btn-sm">Take Action</button>
+                </div>
               </div>
-            </div>
-          </TabsContent>
+            ))}
+          </div>
+        </section>
 
-          <TabsContent value="admin" className="space-y-6">
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-info">📋 Administrative Issues</h2>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                {mockData.issues.administrative.map((issue) => (
-                  <IssueCard
-                    key={issue.id}
-                    issue={issue}
-                    icon={<FileText className="h-5 w-5 text-info" />}
-                  />
-                ))}
+        {/* Quality Issues Section */}
+        <section className="section">
+          <div className="section-header">
+            <h2 className="section-title">
+              <i className="fas fa-exclamation-circle" style={{ color: 'hsl(var(--warning))' }}></i>
+              Quality Issues
+            </h2>
+          </div>
+          <div className="grid grid-cols-auto">
+            {mockData.issues.quality.map((issue) => (
+              <div key={issue.id} className="card hover-lift" style={{
+                borderLeft: '4px solid hsl(var(--warning))'
+              }}>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <i className="fas fa-exclamation-circle" style={{ color: 'hsl(var(--warning))' }}></i>
+                    <h3 style={{ fontWeight: '600', fontSize: '1.125rem' }}>{issue.type}</h3>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="badge badge-warning">Medium</span>
+                    <i className="fas fa-times-circle" style={{ color: 'hsl(var(--danger))' }}></i>
+                  </div>
+                </div>
+                <p className="body-text text-muted mb-4">{issue.description}</p>
+                <div style={{ marginBottom: 'var(--space)' }}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <i className="fas fa-building" style={{ color: 'hsl(var(--gray-400))' }}></i>
+                    <span style={{ fontSize: '14px' }}>{issue.franchisee}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <i className="fas fa-calendar" style={{ color: 'hsl(var(--gray-400))' }}></i>
+                    <span style={{ fontSize: '14px' }}>{issue.dateReported}</span>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <button className="btn btn-outline btn-sm">View Details</button>
+                  <button className="btn btn-primary btn-sm">Take Action</button>
+                </div>
               </div>
-            </div>
-          </TabsContent>
-        </Tabs>
-      </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Administrative Issues Section */}
+        <section className="section">
+          <div className="section-header">
+            <h2 className="section-title">
+              <i className="fas fa-file-alt" style={{ color: 'hsl(var(--primary))' }}></i>
+              Administrative Issues
+            </h2>
+          </div>
+          <div className="grid grid-cols-auto">
+            {mockData.issues.administrative.map((issue) => (
+              <div key={issue.id} className="card hover-lift" style={{
+                borderLeft: '4px solid hsl(var(--primary))'
+              }}>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <i className="fas fa-file-alt" style={{ color: 'hsl(var(--primary))' }}></i>
+                    <h3 style={{ fontWeight: '600', fontSize: '1.125rem' }}>{issue.type}</h3>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="badge badge-info">Low</span>
+                    <i className="fas fa-check-circle" style={{ color: 'hsl(var(--success))' }}></i>
+                  </div>
+                </div>
+                <p className="body-text text-muted mb-4">{issue.description}</p>
+                <div style={{ marginBottom: 'var(--space)' }}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <i className="fas fa-building" style={{ color: 'hsl(var(--gray-400))' }}></i>
+                    <span style={{ fontSize: '14px' }}>{issue.franchisee}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <i className="fas fa-calendar" style={{ color: 'hsl(var(--gray-400))' }}></i>
+                    <span style={{ fontSize: '14px' }}>{issue.dateReported}</span>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <button className="btn btn-outline btn-sm">View Details</button>
+                  <button className="btn btn-primary btn-sm">Take Action</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Franchisees Section */}
+        <section className="section">
+          <div className="section-header">
+            <h2 className="section-title">
+              <i className="fas fa-users" style={{ color: 'hsl(var(--primary))' }}></i>
+              Franchisees
+            </h2>
+          </div>
+          <div className="grid grid-cols-auto">
+            {mockData.franchisees.map((franchisee) => (
+              <div key={franchisee.id} className="card hover-lift">
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <h3 className="franchise-name" style={{ fontSize: '1.25rem', marginBottom: '0.25rem' }}>
+                      <i className="fas fa-user" style={{ marginRight: '0.5rem' }}></i>
+                      {franchisee.name}
+                    </h3>
+                    <p className="caption">{franchisee.location}</p>
+                  </div>
+                  <span className={`badge ${franchisee.compliance === 'Compliant' ? 'badge-compliant' : 'badge-critical'}`}>
+                    {franchisee.compliance}
+                  </span>
+                </div>
+                <div style={{ marginBottom: 'var(--space)' }}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <i className="fas fa-phone" style={{ color: 'hsl(var(--gray-400))' }}></i>
+                    <span style={{ fontSize: '14px' }}>{franchisee.phone}</span>
+                  </div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <i className="fas fa-envelope" style={{ color: 'hsl(var(--gray-400))' }}></i>
+                    <span style={{ fontSize: '14px' }}>{franchisee.email}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <i className="fas fa-calendar" style={{ color: 'hsl(var(--gray-400))' }}></i>
+                    <span style={{ fontSize: '14px' }}>Last audit: {franchisee.lastAudit}</span>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <button className="btn btn-outline btn-sm">View Profile</button>
+                  <button className="btn btn-primary btn-sm">Schedule Audit</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      </main>
     </div>
   );
 };
