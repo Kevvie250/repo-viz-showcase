@@ -573,10 +573,10 @@
   }
   }
   
-  /* Sidebar positioning below header */
+  /* Sidebar positioning */
   [data-sidebar="sidebar"] {
-    top: calc(192px + 33vh) !important;
-    height: calc(67vh - 192px) !important;
+    top: 0 !important;
+    height: 100vh !important;
   }
 
 @layer utilities {
